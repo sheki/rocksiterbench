@@ -2,11 +2,13 @@ package main
 
 import (
 	"flag"
+	"runtime"
 
 	"github.com/sheki/rocksiterbench"
 )
 
 func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
 	initalWrite := flag.Uint("initial_write", 1000000, "number of rows to write before reading")
 	writeThreads := flag.Uint("writer_threads", 10, "number of writer threads")
 	numIter := flag.Uint("num_iter", 100, "number of iterators to run")
