@@ -24,11 +24,11 @@ func (r *RocksDB) Close() {
 	r.db.Close()
 }
 
-type RocksIter struct {
+type rocksIter struct {
 	iter *gorocksdb.Iterator
 }
 
-func (r *RocksIter) Next() ([]byte, bool) {
+func (r *rocksIter) Next() ([]byte, bool) {
 	if !r.iter.Valid() {
 		return nil, false
 	}
@@ -41,11 +41,11 @@ func (r *RocksIter) Next() ([]byte, bool) {
 	return res, true
 }
 
-func (r *RocksIter) Err() error {
+func (r *rocksIter) Err() error {
 	return r.iter.Err()
 }
 
-func (r *RocksIter) Close() {
+func (r *rocksIter) Close() {
 	r.iter.Close()
 }
 
@@ -54,5 +54,5 @@ func (r *RocksDB) Iterate(key []byte) Iter {
 	ro.SetFillCache(false)
 	it := r.db.NewIterator(ro)
 	it.Seek(key)
-	return &RocksIter{iter: it}
+	return &rocksIter{iter: it}
 }
