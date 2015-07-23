@@ -74,6 +74,7 @@ func (r *RangeScanner) ScanAll() {
 	start := time.Now()
 	for i := uint(0); i < r.parallelism; i++ {
 		go func() {
+			fmt.Println("scnanner started")
 			defer wg.Done()
 			iter := r.db.Iterate(randKey(2))
 			defer iter.Close()
@@ -88,13 +89,13 @@ func (r *RangeScanner) ScanAll() {
 			}
 		}()
 	}
+	wg.Wait()
 	runTime := time.Now().Sub(start)
 	fmt.Printf(
 		"read in %f seconds using %d threads\n",
 		runTime.Seconds(),
 		r.parallelism,
 	)
-	wg.Wait()
 }
 
 func NewRangeScanner(db DB, parallelism uint) *RangeScanner {

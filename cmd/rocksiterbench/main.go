@@ -17,7 +17,7 @@ func main() {
 	flag.Parse()
 	db := loadDB(*path, *dbType)
 	defer db.Close()
-	go rocksiterbench.RecordDiskUsage(*path)
+	// go rocksiterbench.RecordDiskUsage(*path)
 	writer := rocksiterbench.NewDBWriter(db, *initalWrite, *writeThreads)
 	writer.WriteAll()
 	scanner := rocksiterbench.NewRangeScanner(db, *numIter)
